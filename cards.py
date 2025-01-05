@@ -40,7 +40,7 @@ class RotatedCard:
   def get_side(self, side):
     return self.card.get_side(side, self.rot)
 
-  def find_valid_neighbors(self, side, pool):
+  def find_valid_neighbors(self, side: int, pool: set[Card]):
     match_sym = self.get_side(side)
     # The other card needs to have it on the opposite side
     match_side = (side + 2) % 4

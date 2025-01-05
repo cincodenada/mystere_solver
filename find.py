@@ -16,9 +16,9 @@ sidelist = [
 # Split them for easier handling
 cards = [Card(num, sides) for num, sides in enumerate(sidelist)]
 
-def find_valid(above_card, left_card, pool):
-  valid_above = set(above_card.find_neighbors(2, pool))
-  valid_left = set(left_card.find_neighbors(1, pool))
+def find_valid_corner(above_card: RotatedCard, left_card: RotatedCard, pool: set[Card]):
+  valid_above = set(above_card.find_valid_neighbors(2, pool))
+  valid_left = set(left_card.find_valid_neighbors(1, pool))
   return valid_above.intersection(valid_left)
 
 def rc_to_idx(row, col):
@@ -42,15 +42,15 @@ def valid_next(chosen: list[RotatedCard], remaining: set[Card]):
     yield from chosen[rc_to_idx(row-1, col)].find_valid_neighbors(2, remaining)
   else:
     # Two neighbors
-    yield from find_valid(
+    yield from find_valid_corner(
       chosen[rc_to_idx(row-1, col)],
       chosen[rc_to_idx(row, col-1)],
       remaining
     )
 
-def find_valid(chosen, remaining, target):
+def find_valid_set(chosen, remaining, target):
   if(len(chosen) == target):
     yield chosen
 
   for candidate in valid_next(chosen, remaining):
-    yield from find_valid(chosen + [candidate], remaining.difference([candidate.card]), target)
+    yield from find_valid_set(chosen + [candidate], remaining.difference([candidate.card]), target)
