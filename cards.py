@@ -16,9 +16,13 @@ class CardSymbol:
     return f"<{str(self)}>"
 
 class Card:
-  def __init__(self, num, sides):
-    self.num = num
+  def __init__(self, idx, sides):
+    self.idx = idx
     self.sides = [CardSymbol(side_info) for side_info in sides]
+
+  @property
+  def num(self):
+    return self.idx + 1
 
   def get_side(self, side, rot):
     return self.sides[(side+rot)%4]
@@ -35,7 +39,11 @@ class Card:
 class RotatedCard:
   def __init__(self, card, rot):
     self.card = card
-    self.rot = rot
+    self.rot = rot % 4
+
+  @property
+  def ang(self):
+    return f"{self.rot*90}°"
 
   def get_side(self, side):
     return self.card.get_side(side, self.rot)
@@ -53,7 +61,7 @@ class RotatedCard:
           yield RotatedCard(card, (match_side - target_side)%4)
 
   def __str__(self):
-    return f"Card {self.card.num}@{self.rot}: {','.join([str(self.get_side(idx)) for idx in range(0,4)])}"
+    return f"Card {self.card.num}@{self.ang}: {','.join([str(self.get_side(idx)) for idx in range(0,4)])}"
 
   def __repr__(self):
     return f"<{str(self)}>"
