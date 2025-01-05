@@ -1,12 +1,14 @@
-import typing
+from typing import Self
 
 class CardSymbol:
-  def __init__(self, side_info):
+  """One of the half-symbols on the card"""
+  def __init__(self, side_info: str):
     (sym, half) = side_info.split('_')
     self.sym = sym
     self.half = half
 
-  def matches(self, other):
+  def matches(self, other: Self) -> bool:
+    """Is `other` the other half of this symbol?"""
     return (other.sym == self.sym and other.half != self.half)
 
   def __str__(self):
@@ -16,15 +18,16 @@ class CardSymbol:
     return f"<{str(self)}>"
 
 class Card:
+  """Represents a non-played card, essentially just an index and an ordered set of symbols"""
   def __init__(self, idx, sides):
     self.idx = idx
     self.sides = [CardSymbol(side_info) for side_info in sides]
 
   @property
-  def num(self):
+  def num(self) -> int:
     return self.idx + 1
 
-  def get_side(self, side, rot):
+  def get_side(self, side, rot) -> CardSymbol:
     return self.sides[(side+rot)%4]
 
   def rotated(self, rot):
@@ -40,7 +43,8 @@ class Card:
     return f"<{str(self)}>"
 
 class RotatedCard:
-  def __init__(self, card, rot):
+  """A Card that has been positioned, and thus has a fixed rotation"""
+  def __init__(self, card: Card, rot: int):
     self.card = card
     self.rot = rot % 4
 
@@ -80,6 +84,7 @@ class RotatedCard:
     return hash((self.card, self.rot))
 
 class CardRenderer:
+  """Very silly renderer for cards and cardsets"""
   def __init__(self, sidelen: int):
     self.sidelen = sidelen
     self.prerendered = {}
