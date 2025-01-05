@@ -63,15 +63,15 @@ class RotatedCard:
   def find_valid_neighbors(self, side: int, pool: set[Card]):
     """Find all Cards in `pool` that can neighbor this card on the given side"""
     match_sym = self.get_side(side)
-    # The other card needs to have it on the opposite side
+    # The other card needs to have the matching symbol on the opposite side
     match_side = (side + self.num_sides//2) % self.num_sides
     for card in pool:
-      for (target_side, sym) in enumerate(card.sides):
+      for (cur_side, sym) in enumerate(card.sides):
         if sym.matches(match_sym):
           # To get the rotation, subtract target side from unrotated side
           # Ex: if we find a match at the top (side 0) and need it positioned
           # at the left (side 3) then we need to rotate it 3 (3-0)
-          yield RotatedCard(card, (target_side - match_side)%self.num_sides)
+          yield RotatedCard(card, (cur_side - match_side)%self.num_sides)
 
   def short(self):
     return f"{self.card.num}@{self.ang}"

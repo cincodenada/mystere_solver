@@ -56,7 +56,7 @@ def valid_next(chosen: list[RotatedCard], remaining: set[Card]):
       remaining
     )
 
-def find_valid_set(chosen, remaining, target):
+def find_valid_sets(chosen, remaining, target):
   """Recursively find all valid sets of `target` cards
 
   chosen -- List of RotatedCards already chosen
@@ -66,15 +66,17 @@ def find_valid_set(chosen, remaining, target):
   if(len(chosen) == target):
     yield chosen
 
+  # Find all the valid next cards given what we've chosen already
   for candidate in valid_next(chosen, remaining):
-    yield from find_valid_set(chosen + [candidate], remaining.difference([candidate.card]), target)
+    # For each such candidate, recurse with it added to the list of chosen cards (and removed from the pool)
+    yield from find_valid_sets(chosen + [candidate], remaining.difference([candidate.card]), target)
 
 def find_remaining(chosen, pool, target):
   """Wrapper for resuming a partially-completed search without having to manually winnow `pool`"""
-  yield from find_valid_set(chosen, pool.difference([rc.card for rc in chosen]), target)
+  yield from find_valid_sets(chosen, pool.difference([rc.card for rc in chosen]), target)
 
 if __name__ == "__main__":
-  sets = list(find_valid_set([], set(cards), 9))
+  sets = list(find_valid_sets([], set(cards), 9))
 
   for chosen in sets:
     for row in range(3):
