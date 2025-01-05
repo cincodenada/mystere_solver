@@ -40,6 +40,8 @@ class RotatedCard:
   def __init__(self, card, rot):
     self.card = card
     self.rot = rot % 4
+    self.rendered = None
+    self.sidelen = None
 
   @property
   def ang(self):
@@ -59,6 +61,30 @@ class RotatedCard:
           # So if we find it at the top (side 0) and need it at the left (side 3)
           # We need to rotate it 3 (3-0)
           yield RotatedCard(card, (match_side - target_side)%4)
+
+  def render_line(self, sidelen, line):
+    borders = self.borders(sidelen)
+    pad = sidelen - 2
+    if line == 0:
+      return f"╔{borders[0]}╗"
+    if line == sidelen-1:
+      return f"╚{borders[2]}╝"
+    else:
+      idx = line-1
+      caption = f"Card {self.card.num}" if idx == pad//2 else ""
+      return f"{borders[3][idx]}{caption:^{pad}}{borders[1][idx]}"
+
+  def borders(self, sidelen):
+    if self.sidelen != sidelen or self.rendered is None:
+      self.sidelen = sidelen
+      pad = self.sidelen - 2
+      sides = [(str(self.get_side(n)), '═' if n%2 == 0 else '║') for n in range(4)]
+      self.rendered = [f"{s:{char}^{pad}}" for (s, char) in sides]
+    return self.rendered
+
+  def render(self, sidelen, offset=0):
+    for idx in range(sidelen):
+      print(self.render_line(sidelen, idx))
 
   def __str__(self):
     return f"Card {self.card.num}@{self.ang}: {','.join([str(self.get_side(idx)) for idx in range(0,4)])}"

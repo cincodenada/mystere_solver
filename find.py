@@ -54,3 +54,29 @@ def find_valid_set(chosen, remaining, target):
 
   for candidate in valid_next(chosen, remaining):
     yield from find_valid_set(chosen + [candidate], remaining.difference([candidate.card]), target)
+
+def find_remaining(chosen, pool, target):
+  yield from find_valid_set(chosen, pool.difference([rc.card for rc in chosen]), target)
+
+if __name__ == "__main__":
+  set8 = find_valid_set([], set(cards), 8)
+
+  for chosen in set8:
+    print("Valid set of 8:")
+    cardsize=15
+    for row in range(3):
+      for line in range(cardsize):
+        for col in range(3):
+          try:
+            print(chosen[row*3+col].render_line(cardsize, line), end="")
+          except IndexError:
+            pass
+        print("")
+
+    print("Valid 9th cards:")
+    candidates = list(find_remaining(chosen, set(cards), 9))
+    if(len(candidates) == 0):
+      print("None")
+    else:
+      for c in candidates:
+        c.render()
