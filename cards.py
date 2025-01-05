@@ -43,8 +43,6 @@ class RotatedCard:
   def __init__(self, card, rot):
     self.card = card
     self.rot = rot % 4
-    self.rendered = None
-    self.sidelen = None
 
   @property
   def ang(self):
@@ -66,37 +64,6 @@ class RotatedCard:
           # We need to rotate it 3 (3-0)
           yield RotatedCard(card, (target_side - match_side)%4)
 
-  def render_line(self, sidelen, line):
-    borders = self.borders(sidelen)
-    pad = sidelen - 2
-    if line == 0:
-      return f"╔{borders[0]}╗"
-    if line == sidelen-1:
-      return f"╚{borders[2]}╝"
-    else:
-      idx = line-1
-      center = pad//2
-      if idx == center:
-        caption = f"Card {self.card.num}"
-      elif idx == center+1:
-        caption = f"Rot {self.ang}"
-      else:
-        caption = ""
-
-      return f"{borders[3][idx]}{caption:^{pad}}{borders[1][idx]}"
-
-  def borders(self, sidelen):
-    if self.sidelen != sidelen or self.rendered is None:
-      self.sidelen = sidelen
-      pad = self.sidelen - 2
-      sides = [(str(self.get_side(n)), '═' if n%2 == 0 else '║') for n in range(4)]
-      self.rendered = [f"{s:{char}^{pad}}" for (s, char) in sides]
-    return self.rendered
-
-  def render(self, sidelen, offset=0):
-    for idx in range(sidelen):
-      print(self.render_line(sidelen, idx))
-
   def short(self):
     return f"{self.card.num}@{self.ang}"
 
@@ -111,3 +78,50 @@ class RotatedCard:
 
   def __hash__(self):
     return hash((self.card, self.rot))
+
+class CardRenderer:
+  def __init__(self, sidelen: int):
+    self.sidelen = sidelen
+    self.cur_card = None
+
+  def renderCards(self, cards: list[RotatedCard]):
+    for row in range(3):
+      for line in range(self.sidelen):
+        for col in range(3):
+          try:
+            print(self.render_line(cards[row*3+col], line), end="")
+          except IndexError:
+            pass
+        print("")
+
+
+  def borders(self, card):
+    if card != self.cur_card or self.rendered is None:
+      self.cur_card = card
+      pad = self.sidelen - 2
+      sides = [(str(card.get_side(n)), '═' if n%2 == 0 else '║') for n in range(4)]
+      self.rendered = [f"{s:{char}^{pad}}" for (s, char) in sides]
+    return self.rendered
+
+  def render_line(self, card: RotatedCard, line: int):
+    borders = self.borders(card)
+    pad = self.sidelen - 2
+    if line == 0:
+      return f"╔{borders[0]}╗"
+    if line == self.sidelen-1:
+      return f"╚{borders[2]}╝"
+    else:
+      idx = line-1
+      center = pad//2
+      if idx == center:
+        caption = f"Card {card.card.num}"
+      elif idx == center+1:
+        caption = f"Rot {card.ang}"
+      else:
+        caption = ""
+
+      return f"{borders[3][idx]}{caption:^{pad}}{borders[1][idx]}"
+
+  def render(self, card: RotatedCard):
+    for idx in range(self.sidelen):
+      print(self.render_line(card, idx))

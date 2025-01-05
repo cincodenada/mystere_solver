@@ -1,4 +1,4 @@
-from cards import Card, RotatedCard
+from cards import Card, RotatedCard, CardRenderer
 
 # Cards, with sides clockwise from top
 sidelist = [
@@ -83,12 +83,5 @@ if __name__ == "__main__":
 
   for chosen in sets:
     print("Valid set of 9:")
-    cardsize=15
-    for row in range(3):
-      for line in range(cardsize):
-        for col in range(3):
-          try:
-            print(chosen[rc_to_idx(row, col)].render_line(cardsize, line), end="")
-          except IndexError:
-            pass
-        print("")
+    renderer = CardRenderer(15)
+    renderer.renderCards(chosen)
