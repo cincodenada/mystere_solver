@@ -20,6 +20,9 @@ class Card:
   def get_side(self, side, rot):
     return self.sides[(side+rot)%4]
 
+  def rotated(self, rot):
+    return RotatedCard(self, rot)
+
   def __str__(self):
     return f"Card {self.num}: {','.join([str(self.get_side(idx, 0)) for idx in range(0,4)])}"
 

@@ -31,7 +31,9 @@ def valid_next(chosen: list[RotatedCard], remaining: list[Card]):
 
   if row == 0 and col == 0:
     # First card, all are possible
-    return remaining
+    for card in remaining:
+      for rot in range(4):
+        yield card.rotated(rot)
   elif row == 0:
     # First row, only constraint is left
     return chosen[rc_to_idx(row, col-1)].find_valid_neighbors(1, remaining)
