@@ -19,7 +19,7 @@ cards = [Card(num, sides) for num, sides in enumerate(sidelist)]
 def find_valid_corner(above_card: RotatedCard, left_card: RotatedCard, pool: set[Card]):
   valid_above = set(above_card.find_valid_neighbors(2, pool))
   valid_left = set(left_card.find_valid_neighbors(1, pool))
-  return valid_above.intersection(valid_left)
+  yield from valid_above.intersection(valid_left)
 
 def rc_to_idx(row, col):
   return row*3+col

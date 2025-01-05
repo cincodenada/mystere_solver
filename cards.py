@@ -57,3 +57,9 @@ class RotatedCard:
 
   def __repr__(self):
     return f"<{str(self)}>"
+
+  def __eq__(self, other):
+    return self.card == other.card and self.rot == other.rot
+
+  def __hash__(self):
+    return hash((self.card, self.rot))
