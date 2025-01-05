@@ -47,4 +47,4 @@ class RotatedCard:
           yield RotatedCard(card, (match_side - target_side)%4)
 
   def __str__(self):
-    return f"Card {self.num}@{self.rot}: {','.join([str(self.get_side(idx)) for idx in range(0,4)])}"
+    return f"Card {self.card.num}@{self.rot}: {','.join([str(self.get_side(idx)) for idx in range(0,4)])}"
