@@ -82,7 +82,7 @@ class RotatedCard:
 class CardRenderer:
   def __init__(self, sidelen: int):
     self.sidelen = sidelen
-    self.cur_card = None
+    self.prerendered = {}
 
   def renderCards(self, cards: list[RotatedCard]):
     for row in range(3):
@@ -96,12 +96,11 @@ class CardRenderer:
 
 
   def borders(self, card):
-    if card != self.cur_card or self.rendered is None:
-      self.cur_card = card
+    if card.card.num not in self.prerendered:
       pad = self.sidelen - 2
       sides = [(str(card.get_side(n)), '═' if n%2 == 0 else '║') for n in range(4)]
-      self.rendered = [f"{s:{char}^{pad}}" for (s, char) in sides]
-    return self.rendered
+      self.prerendered[card.card.num] = [f"{s:{char}^{pad}}" for (s, char) in sides]
+    return self.prerendered[card.card.num]
 
   def render_line(self, card: RotatedCard, line: int):
     borders = self.borders(card)
