@@ -30,8 +30,11 @@ class Card:
   def rotated(self, rot):
     return RotatedCard(self, rot)
 
+  def short(self):
+    return f"{self.num}"
+
   def __str__(self):
-    return f"Card {self.num}: {','.join([str(self.get_side(idx, 0)) for idx in range(0,4)])}"
+    return f"Card {self.short()}: {','.join([str(self.get_side(idx, 0)) for idx in range(0,4)])}"
 
   def __repr__(self):
     return f"<{str(self)}>"
@@ -60,7 +63,7 @@ class RotatedCard:
           # To get the rotation, subtract target side from unrotated side
           # So if we find it at the top (side 0) and need it at the left (side 3)
           # We need to rotate it 3 (3-0)
-          yield RotatedCard(card, (match_side - target_side)%4)
+          yield RotatedCard(card, (target_side - match_side)%4)
 
   def render_line(self, sidelen, line):
     borders = self.borders(sidelen)
@@ -93,8 +96,11 @@ class RotatedCard:
     for idx in range(sidelen):
       print(self.render_line(sidelen, idx))
 
+  def short(self):
+    return f"{self.card.num}@{self.ang}"
+
   def __str__(self):
-    return f"Card {self.card.num}@{self.ang}: {','.join([str(self.get_side(idx)) for idx in range(0,4)])}"
+    return f"Card {self.short()}: {','.join([str(self.get_side(idx)) for idx in range(0,4)])}"
 
   def __repr__(self):
     return f"<{str(self)}>"

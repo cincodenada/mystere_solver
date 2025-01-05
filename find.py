@@ -59,10 +59,15 @@ def find_remaining(chosen, pool, target):
   yield from find_valid_set(chosen, pool.difference([rc.card for rc in chosen]), target)
 
 if __name__ == "__main__":
-  set8 = find_valid_set([], set(cards), 8)
+  sets = find_valid_set([], set(cards), 9)
 
-  for chosen in set8:
-    print("Valid set of 8:")
+  for chosen in sets:
+    for row in range(3):
+      print(', '.join([c.short() for c in chosen[row*3:(row+1)*3]]))
+    print()
+
+  for chosen in sets:
+    print("Valid set of 9:")
     cardsize=15
     for row in range(3):
       for line in range(cardsize):
@@ -72,11 +77,3 @@ if __name__ == "__main__":
           except IndexError:
             pass
         print("")
-
-    print("Valid 9th cards:")
-    candidates = list(find_remaining(chosen, set(cards), 9))
-    if(len(candidates) == 0):
-      print("None")
-    else:
-      for c in candidates:
-        c.render()
