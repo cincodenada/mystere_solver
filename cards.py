@@ -44,7 +44,7 @@ class RotatedCard:
     match_sym = self.get_side(side)
     # The other card needs to have it on the opposite side
     match_side = (side + 2) % 4
-    for card in enumerate(pool):
+    for card in pool:
       for (target_side, sym) in enumerate(card.sides):
         if sym.matches(match_sym):
           # To get the rotation, subtract target side from unrotated side
