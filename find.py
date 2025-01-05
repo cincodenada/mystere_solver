@@ -40,7 +40,7 @@ def valid_next(chosen: list[RotatedCard], remaining: set[Card]):
   if row == 0 and col == 0:
     # First card, all rotations of all cards are possible
     for card in remaining:
-      for rot in range(4):
+      for rot in range(card.num_sides):
         yield card.rotated(rot)
   elif row == 0:
     # First row, only constraint is to our left
