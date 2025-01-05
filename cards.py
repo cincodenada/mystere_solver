@@ -71,7 +71,14 @@ class RotatedCard:
       return f"╚{borders[2]}╝"
     else:
       idx = line-1
-      caption = f"Card {self.card.num}" if idx == pad//2 else ""
+      center = pad//2
+      if idx == center:
+        caption = f"Card {self.card.num}"
+      elif idx == center+1:
+        caption = f"Rot {self.ang}"
+      else:
+        caption = ""
+
       return f"{borders[3][idx]}{caption:^{pad}}{borders[1][idx]}"
 
   def borders(self, sidelen):

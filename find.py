@@ -68,7 +68,7 @@ if __name__ == "__main__":
       for line in range(cardsize):
         for col in range(3):
           try:
-            print(chosen[row*3+col].render_line(cardsize, line), end="")
+            print(chosen[rc_to_idx(row, col)].render_line(cardsize, line), end="")
           except IndexError:
             pass
         print("")
