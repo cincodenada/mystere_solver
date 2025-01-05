@@ -2,15 +2,15 @@ from cards import Card, RotatedCard
 
 # Cards, with sides clockwise from top
 sidelist = [
-  [ 'dancer_a', 'hair_a', 'bug_a', 'flower_b' ],
-  [ 'bug_b', 'dancer_a', 'hair_b', 'flower_b' ],
-  [ 'dancer_a', 'hair_a', 'flower_a', 'bug_a' ],
-  [ 'flower_b', 'hair_a', 'dancer_a', 'bug_a' ],
-  [ 'hair_b', 'dancer_a', 'bug_b', 'flower_a' ],
-  [ 'dancer_b', 'hair_a', 'bug_a', 'dancer_a' ],
-  [ 'dancer_b', 'bug_a', 'bug_b', 'flower_a' ],
+  [ 'trapese_a', 'hair_a', 'bug_a', 'flower_b' ],
+  [ 'bug_b', 'trapese_a', 'hair_b', 'flower_b' ],
+  [ 'trapese_a', 'hair_a', 'flower_a', 'bug_a' ],
+  [ 'flower_b', 'hair_a', 'trapese_a', 'bug_a' ],
+  [ 'hair_b', 'trapese_a', 'bug_b', 'flower_a' ],
+  [ 'trapese_b', 'hair_a', 'bug_a', 'trapese_a' ],
+  [ 'trapese_b', 'bug_a', 'bug_b', 'flower_a' ],
   [ 'hair_a', 'bug_b', 'flower_a', 'hair_b' ],
-  [ 'flower_a', 'dancer_b', 'flower_a', 'hair_b' ]
+  [ 'flower_a', 'trapese_b', 'flower_a', 'hair_b' ]
 ]
 
 # Split them for easier handling
