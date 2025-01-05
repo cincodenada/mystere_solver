@@ -13,7 +13,7 @@ class CardSymbol:
     return f"{self.sym}_{self.half}"
 
   def __repr__(self):
-    return str(self)
+    return f"<{str(self)}>"
 
 class Card:
   def __init__(self, num, sides):
@@ -30,7 +30,7 @@ class Card:
     return f"Card {self.num}: {','.join([str(self.get_side(idx, 0)) for idx in range(0,4)])}"
 
   def __repr__(self):
-    return str(self)
+    return f"<{str(self)}>"
 
 class RotatedCard:
   def __init__(self, card, rot):
@@ -56,4 +56,4 @@ class RotatedCard:
     return f"Card {self.card.num}@{self.rot}: {','.join([str(self.get_side(idx)) for idx in range(0,4)])}"
 
   def __repr__(self):
-    return str(self)
+    return f"<{str(self)}>"
