@@ -53,6 +53,10 @@ class RotatedCard:
   def ang(self):
     return f"{self.rot*90}°"
 
+  @property
+  def num_sides(self):
+    return self.card.num_sides
+
   def get_side(self, side):
     return self.card.get_side(side, self.rot)
 
@@ -60,7 +64,7 @@ class RotatedCard:
     """Find all Cards in `pool` that can neighbor this card on the given side"""
     match_sym = self.get_side(side)
     # The other card needs to have it on the opposite side
-    match_side = (side + 2) % self.num_sides
+    match_side = (side + self.num_sides//2) % self.num_sides
     for card in pool:
       for (target_side, sym) in enumerate(card.sides):
         if sym.matches(match_sym):
@@ -104,7 +108,7 @@ class CardRenderer:
   def borders(self, card):
     if card.card.num not in self.prerendered:
       pad = self.sidelen - 2
-      sides = [(str(card.get_side(n)), '═' if n%2 == 0 else '║') for n in range(self.num_sides)]
+      sides = [(str(card.get_side(n)), '═' if n%2 == 0 else '║') for n in range(card.num_sides)]
       self.prerendered[card.card.num] = [f"{s:{char}^{pad}}" for (s, char) in sides]
     return self.prerendered[card.card.num]
 
