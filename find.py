@@ -59,12 +59,12 @@ def find_remaining(chosen, pool, target):
   yield from find_valid_set(chosen, pool.difference([rc.card for rc in chosen]), target)
 
 if __name__ == "__main__":
-  sets = find_valid_set([], set(cards), 9)
+  sets = list(find_valid_set([], set(cards), 9))
 
   for chosen in sets:
     for row in range(3):
       print(', '.join([c.short() for c in chosen[row*3:(row+1)*3]]))
-    print()
+    print("")
 
   for chosen in sets:
     print("Valid set of 9:")
